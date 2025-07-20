@@ -95,11 +95,17 @@ async def recharge_handler(message: Message):
 
 @dp.message(F.text == "/admin_stats")
 async def admin_stats(message: Message):
-    if not is_admin(message.from_user.id): return
+    if not is_admin(message.from_user.id):
+        return
+
     u, t, s = get_stats()
-    await message.answer(f"Users: {u}
-Tasks: {t}
-Submissions: {s}")
+    await message.answer(
+        f"📊 Stats:\n"
+        f"👥 Users: {u}\n"
+        f"📝 Tasks: {t}\n"
+        f"📨 Submissions: {s}"
+    )
+
 
 async def main():
     init_db()
