@@ -22,13 +22,17 @@ async def start_handler(message: Message):
 async def task_list(message: Message):
     tasks = get_tasks()
     if not tasks:
-        await message.answer("No tasks available right now.")
+        await message.answer("🚫 No tasks available right now.")
         return
+
     for task in tasks:
-        await message.answer(f"📌 <b>{task[1]}</b>
-{task[2]}
-Slots: {task[4]}/{task[3]}
-Send proof: /submit_{task[0]}")
+        await message.answer(
+            f"📌 <b>{task[1]}</b>\n"
+            f"{task[2]}\n"
+            f"👥 Slots: {task[4]}/{task[3]}\n"
+            f"✅ Send proof: /submit_{task[0]}"
+        )
+
 
 @dp.message(F.text.regexp(r"^/submit_(\d+)$"))
 async def submit_task(message: Message):
