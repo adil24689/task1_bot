@@ -57,13 +57,22 @@ async def add_task_handler(message: Message):
 
 @dp.message(F.text == "/pending")
 async def pending_subs(message: Message):
-    if not is_admin(message.from_user.id): return
+    if not is_admin(message.from_user.id):
+        return
+
     subs = get_pending_submissions()
+    if not subs:
+        await message.answer("🚫 No pending submissions.")
+        return
+
     for s in subs:
-        await message.answer(f"User: {s[1]}
-Task ID: {s[2]}
-Proof: {s[3]}
-/approve_{s[0]}")
+        await message.answer(
+            f"👤 User: {s[1]}\n"
+            f"📝 Task ID: {s[2]}\n"
+            f"📎 Proof: {s[3]}\n"
+            f"✅ Approve: /approve_{s[0]}"
+        )
+
 
 @dp.message(F.text.regexp(r"^/approve_(\d+)$"))
 async def approve_sub(message: Message):
